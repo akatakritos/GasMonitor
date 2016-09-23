@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasMonitor.WebApi", "GasMonitor.WebApi\GasMonitor.WebApi.csproj", "{AD5D2EEF-E06F-493B-A507-A18044B97AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasMonitor.Core", "GasMonitor.Core\GasMonitor.Core.csproj", "{0AD02A67-1F4A-4CD2-A202-F9711B16721C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD5D2EEF-E06F-493B-A507-A18044B97AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5D2EEF-E06F-493B-A507-A18044B97AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5D2EEF-E06F-493B-A507-A18044B97AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5D2EEF-E06F-493B-A507-A18044B97AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD02A67-1F4A-4CD2-A202-F9711B16721C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD02A67-1F4A-4CD2-A202-F9711B16721C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD02A67-1F4A-4CD2-A202-F9711B16721C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD02A67-1F4A-4CD2-A202-F9711B16721C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
