@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using GasMonitor.Core.Database;
 using GasMonitor.Core.Models;
@@ -23,31 +24,55 @@ namespace GasMonitor.WebApi.Controllers
             _context = new GasMonitorContext();
         }
 
-        [ResponseType(typeof(OwnerViewModel))]
-        [Route("owners/{id}")]
+        /// <summary>
+        /// Gets the details of an owner
+        /// </summary>
+        /// <param name="id">The identifier of the vehicle owner</param>
+        /// <response code="404">Owner does not exist</response>
+        /// <response code="200">Successful</response>
+        /// <returns></returns>
+        [ResponseType(typeof(OwnerWithVehicles))]
+        [Route("owners/{id}", Name = "Owners.Get")]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            var owner = await _context.Owners.FindAsync(id);
+            var owner = await _context.Owners
+                .Where(o => o.Id == id)
+                .ProjectTo<OwnerWithVehicles>()
+                .FirstOrDefaultAsync();
+
             if (owner == null)
                 return NotFound();
 
-            return Ok(Mapper.Map<OwnerViewModel>(owner));
+            return Ok(owner);
         }
 
-        [HttpPut]
-        [Route("owners/{id}")]
-        public async Task<IHttpActionResult> Put(Guid id, CreateOwnerCommand owner)
+        /// <summary>
+        /// Adds a new Owner. Check the Location header for its url, or parse the Id from the response body
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <response code="201">Successfully created</response>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("owners")]
+        public async Task<IHttpActionResult> Post(CreateOwnerCommand owner)
         {
             var entity = Mapper.Map<Owner>(owner);
-            entity.Id = id;
+            entity.Id = Guid.NewGuid();
 
-            _context.Owners.AddOrUpdate(entity);
+            _context.Owners.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return CreatedAtRoute("Owners.Get", new { id = entity.Id }, Mapper.Map<OwnerViewModel>(entity));
         }
 
+        /// <summary>
+        /// Deletes the owner identified by the URL
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="404">Owner does not exist</response>
+        /// <response code="200">Successfully deleted</response>
+        /// <returns></returns>
         [HttpDelete]
         [Route("owners/{id}")]
         public async Task<IHttpActionResult> Delete(Guid id)

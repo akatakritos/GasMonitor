@@ -10,7 +10,8 @@ namespace GasMonitor.Core.Models
         Car,
         Truck,
         Van,
-        Minivan
+        Minivan,
+        Suv
     }
 
     public class Owner

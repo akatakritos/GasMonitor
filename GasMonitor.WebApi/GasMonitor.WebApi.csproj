@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\GasMonitor.WebApi.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -113,6 +114,7 @@
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FillUpController.cs" />
     <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="Global.asax.cs">

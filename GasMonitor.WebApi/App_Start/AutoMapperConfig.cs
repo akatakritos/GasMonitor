@@ -19,10 +19,17 @@ namespace GasMonitor.WebApi
         private static void ConfigureMapper(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<Owner, OwnerViewModel>();
+            cfg.CreateMap<Owner, OwnerWithVehicles>();
             cfg.CreateMap<CreateOwnerCommand, Owner>();
 
             cfg.CreateMap<Vehicle, VehicleViewModel>();
             cfg.CreateMap<CreateVehicleCommand, Vehicle>();
+            cfg.CreateMap<VehiclePatchCommand, Vehicle>()
+                .ForMember(v => v.Name, opt => opt.Condition(src => src.Name != null))
+                .ForMember(v => v.VehicleType, opt => opt.Condition(src => src.VehicleType != null));
+
+            cfg.CreateMap<FillUp, FillUpViewModel>();
+            cfg.CreateMap<CreateFillUpCommand, FillUp>();
         }
     }
 }

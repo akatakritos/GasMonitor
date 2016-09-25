@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -23,10 +22,17 @@ namespace GasMonitor.WebApi.Controllers
             _context = new GasMonitorContext();
         }
 
+        /// <summary>
+        /// Gets vehicles for an owner
+        /// </summary>
+        /// <param name="ownerId"></param>
+        /// <response code="404">Owner does not exist</response>
+        /// <response code="200">Successful</response>
+        /// <returns></returns>
         [HttpGet]
         [Route("owners/{ownerId}/vehicles")]
         [ResponseType(typeof(IEnumerable<VehicleViewModel>))]
-        public async Task<IHttpActionResult> Get(Guid ownerId)
+        public async Task<IHttpActionResult> GetByOwner(Guid ownerId)
         {
             var owner = await _context.Owners.FindAsync(ownerId);
             if (owner == null)
@@ -36,13 +42,20 @@ namespace GasMonitor.WebApi.Controllers
             return Ok(vehicles);
         }
 
+        /// <summary>
+        /// Gets details of a vehicle
+        /// </summary>
+        /// <param name="vehicleId"></param>
+        /// <response code="404">Vehicle not found</response>
+        /// <response code="200">OK</response>
+        /// <returns></returns>
         [HttpGet]
-        [Route("owners/{ownerId}/vehicles/{vehicleId}")]
+        [Route("vehicles/{vehicleId}", Name="Vehicles.GetById")]
         [ResponseType(typeof(VehicleViewModel))]
-        public async Task<IHttpActionResult> Get(Guid ownerId, Guid vehicleId)
+        public async Task<IHttpActionResult> GetById(Guid vehicleId)
         {
             var vehicle = await _context.Vehicles
-                .Where(v => v.Id == vehicleId && v.Owner.Id == ownerId)
+                .Where(v => v.Id == vehicleId)
                 .SingleOrDefaultAsync();
 
             if (vehicle == null)
@@ -51,33 +64,69 @@ namespace GasMonitor.WebApi.Controllers
             return Ok(Mapper.Map<VehicleViewModel>(vehicle));
         }
 
-        // PUT: api/Vehicle/5
-        [HttpPut]
-        [Route("owners/{ownerId}/vehicles/{vehicleId}")]
+        /// <summary>
+        /// Creates a new vehicle
+        /// </summary>
+        /// <param name="ownerId"></param>
+        /// <param name="vehicle"></param>
+        /// <response code="404">Owner not found</response>
+        /// <response code="201">Vehicle created</response>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("owners/{ownerId}/vehicles")]
         [ResponseType(typeof(VehicleViewModel))]
-        public async Task<IHttpActionResult> Put(Guid ownerId, Guid vehicleId, CreateVehicleCommand vehicle)
+        public async Task<IHttpActionResult> Post(Guid ownerId, CreateVehicleCommand vehicle)
         {
             var owner = await _context.Owners.FindAsync(ownerId);
             if (owner == null)
                 return NotFound();
 
             var entity = Mapper.Map<Vehicle>(vehicle);
-            entity.Id = vehicleId;
+            entity.Id = Guid.NewGuid();
             entity.OwnerId = owner.Id;
 
-            _context.Vehicles.AddOrUpdate(entity);
+            _context.Vehicles.Add(entity);
             await _context.SaveChangesAsync();
 
-            return Ok(Mapper.Map<VehicleViewModel>(entity));
+            return CreatedAtRoute("Vehicles.GetById", new { id = entity.Id }, Mapper.Map<VehicleViewModel>(entity));
         }
 
-        // DELETE: api/Vehicle/5
+        /// <summary>
+        /// Update a vehicle
+        /// </summary>
+        /// <remarks>Properties not included in the PATCH body are not updated</remarks>
+        /// <param name="vehicleId"></param>
+        /// <param name="patch"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        [Route("vehicles/{vehicleId}")]
+        [ResponseType(typeof(VehicleViewModel))]
+        public async Task<IHttpActionResult> Update(Guid vehicleId, VehiclePatchCommand patch)
+        {
+            var entity = await _context.Vehicles.FindAsync(vehicleId);
+            if (entity == null)
+                return NotFound();
+
+            Mapper.Map(patch, entity);
+
+            await _context.SaveChangesAsync();
+            return Ok(Mapper.Map<VehicleViewModel>(entity));
+
+        }
+
+        /// <summary>
+        /// Delets a vehicle
+        /// </summary>
+        /// <param name="vehicleId"></param>
+        /// <response code="404">Vehicle does not exist</response>
+        /// <response code="200">Successful</response>
+        /// <returns></returns>
         [HttpDelete]
-        [Route("owners/{ownerId}/vehicles/{vehicleId}")]
-        public async Task<IHttpActionResult> Delete(Guid ownerId, Guid vehicleId)
+        [Route("vehicles/{vehicleId}")]
+        public async Task<IHttpActionResult> Delete(Guid vehicleId)
         {
             var vehicle = await _context.Vehicles
-                .Where(v => v.Id == ownerId && v.OwnerId == ownerId)
+                .Where(v => v.Id == vehicleId)
                 .FirstOrDefaultAsync();
 
             if (vehicle == null)
