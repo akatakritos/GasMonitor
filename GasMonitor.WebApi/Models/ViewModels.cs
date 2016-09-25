@@ -52,6 +52,20 @@ namespace GasMonitor.WebApi.Models
         public VehicleType VehicleType { get; set; }
     }
 
+    public class VehicleWithStats : VehicleViewModel
+    {
+        public VehicleStats Stats { get; set; }
+    }
+
+    public class VehicleStats
+    {
+        public decimal TotalMiles { get; set; }
+        public decimal TotalsGallons { get; set; }
+        public decimal NumberOfFillups { get; set; }
+
+        public decimal AverageMilesPerGallon => TotalMiles / TotalsGallons;
+    }
+
     public class FillUpViewModel
     {
         public Guid Id { get; set; }

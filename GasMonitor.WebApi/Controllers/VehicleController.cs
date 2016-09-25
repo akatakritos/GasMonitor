@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using GasMonitor.Core.Database;
 using GasMonitor.Core.Models;
@@ -31,14 +32,18 @@ namespace GasMonitor.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("owners/{ownerId}/vehicles")]
-        [ResponseType(typeof(IEnumerable<VehicleViewModel>))]
+        [ResponseType(typeof(IEnumerable<VehicleWithStats>))]
         public async Task<IHttpActionResult> GetByOwner(Guid ownerId)
         {
             var owner = await _context.Owners.FindAsync(ownerId);
             if (owner == null)
                 return NotFound();
 
-            var vehicles = Mapper.Map<IEnumerable<VehicleViewModel>>(owner.Vehicles);
+            var vehicles = await _context.Vehicles
+                .Where(v => v.OwnerId == ownerId)
+                .ProjectTo<VehicleWithStats>()
+                .ToListAsync();
+
             return Ok(vehicles);
         }
 
@@ -51,11 +56,12 @@ namespace GasMonitor.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("vehicles/{vehicleId}", Name="Vehicles.GetById")]
-        [ResponseType(typeof(VehicleViewModel))]
+        [ResponseType(typeof(VehicleWithStats))]
         public async Task<IHttpActionResult> GetById(Guid vehicleId)
         {
             var vehicle = await _context.Vehicles
                 .Where(v => v.Id == vehicleId)
+                .ProjectTo<VehicleWithStats>()
                 .SingleOrDefaultAsync();
 
             if (vehicle == null)
