@@ -14,15 +14,22 @@ namespace GasMonitor.Core.Models
         Suv
     }
 
-    public class Owner
+    public class TimestampedEntity
+    {
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    public class Owner : TimestampedEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
 
+
         public virtual IList<Vehicle> Vehicles { get; set; }
     }
 
-    public class Vehicle
+    public class Vehicle : TimestampedEntity
     {
         public Guid Id { get; set; }
         public Guid OwnerId { get; set; }

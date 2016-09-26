@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 using GasMonitor.Core.Models;
 
@@ -21,6 +22,7 @@ namespace GasMonitor.Core.Database
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
+            builder.HasDefaultSchema("gas");
 
             builder.Entity<Owner>().HasKey(m => m.Id);
             builder.Entity<Owner>().HasMany(m => m.Vehicles);
@@ -35,5 +37,28 @@ namespace GasMonitor.Core.Database
 
             base.OnModelCreating(builder);
         }
+
+        public override Task<int> SaveChangesAsync()
+        {
+            var entities = ChangeTracker.Entries<TimestampedEntity>();
+
+            foreach (var entity in entities)
+            {
+                switch (entity.State)
+                {
+                    case EntityState.Added:
+                        entity.Entity.CreatedAt = DateTime.UtcNow;
+                        entity.Entity.UpdatedAt = DateTime.UtcNow;
+                        break;
+                    case EntityState.Modified:
+                        entity.Entity.UpdatedAt = DateTime.UtcNow;
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync();
+        }
+
+
     }
 }
