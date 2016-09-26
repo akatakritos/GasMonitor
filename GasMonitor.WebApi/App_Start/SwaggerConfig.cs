@@ -239,6 +239,8 @@ namespace GasMonitor.WebApi
                         //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                         //);
 
+                        c.EnableApiKeySupport("X-Api-Key", "header");
+
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"
                         //

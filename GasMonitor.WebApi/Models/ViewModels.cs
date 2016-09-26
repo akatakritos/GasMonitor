@@ -82,4 +82,11 @@ namespace GasMonitor.WebApi.Models
         public bool PrimarilyHighway { get; set; }
         public DateTime? FilledAt { get; set; }
     }
+
+    public class Status
+    {
+        public TimeSpan Uptime { get; set; }
+        public string Version { get; set; }
+        public string Commit { get; set; }
+    }
 }

@@ -13,6 +13,7 @@ namespace GasMonitor.WebApi
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.Filters.Add(new ValidateApiKeyAttribute());
         }
     }
 }

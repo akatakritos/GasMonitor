@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
+
+using GasMonitor.Core.Database;
+using GasMonitor.Core.Migrations;
 
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -12,6 +16,7 @@ namespace GasMonitor.WebApi
     {
         protected void Application_Start()
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<GasMonitorContext, Configuration>());
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AutoMapperConfig.Configure();
 
