@@ -14,15 +14,23 @@ namespace GasMonitor.WebApi
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            var authHeader = actionContext.Request.Headers.GetValues("X-Api-Key").FirstOrDefault();
-            if (authHeader == null || authHeader != ConfigurationManager.AppSettings["ApiKey"])
+            IEnumerable<string> values;
+            var found = actionContext.Request.Headers.TryGetValues("X-Api-Key", out values);
+            if (!found || values == null || values.FirstOrDefault() != ConfigurationManager.AppSettings["ApiKey"])
             {
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
-                {
-                    Content = new StringContent("Not authorized. Did you forget to include the right X-Api-Key header?")
-                };
+                actionContext.Response = Unauthorized();
             }
 
+            base.OnActionExecuting(actionContext);
         }
+
+        private HttpResponseMessage Unauthorized()
+        {
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized)
+            {
+                Content = new StringContent("Not authorized. Did you forget to include the right X-Api-Key header?")
+            };
+        }
+
     }
 }
