@@ -24,9 +24,11 @@ namespace GasMonitor.WebApi
 
             cfg.CreateMap<Vehicle, VehicleViewModel>();
             cfg.CreateMap<CreateVehicleCommand, Vehicle>();
+
             cfg.CreateMap<VehiclePatchCommand, Vehicle>()
                 .ForMember(v => v.Name, opt => opt.Condition(src => src.Name != null))
                 .ForMember(v => v.VehicleType, opt => opt.Condition(src => src.VehicleType != null));
+
             cfg.CreateMap<Vehicle, VehicleWithStats>()
                 .ForMember(d => d.Stats, opt => opt.MapFrom(v => new VehicleStats
                 {

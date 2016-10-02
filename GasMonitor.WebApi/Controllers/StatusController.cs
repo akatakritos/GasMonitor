@@ -31,7 +31,7 @@ namespace GasMonitor.WebApi.Controllers
             }
         }
 
-        [Route("status")]
+        [Route("version")]
         [HttpGet]
         public IHttpActionResult Get()
         {

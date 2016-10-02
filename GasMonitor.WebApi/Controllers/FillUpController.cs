@@ -14,6 +14,8 @@ using GasMonitor.Core.Database;
 using GasMonitor.Core.Models;
 using GasMonitor.WebApi.Models;
 
+using Swashbuckle.Swagger.Annotations;
+
 namespace GasMonitor.WebApi.Controllers
 {
     public class FillUpController : ApiController
