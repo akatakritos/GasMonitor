@@ -33,8 +33,8 @@ namespace GasMonitor.WebApi
                 .ForMember(d => d.Stats, opt => opt.MapFrom(v => new VehicleStats
                 {
                     NumberOfFillups = v.FillUps.Count(),
-                    TotalMiles = v.FillUps.Sum(f => f.Miles),
-                    TotalsGallons = v.FillUps.Sum(f => f.Gallons)
+                    TotalMiles = v.FillUps.Sum(f => (decimal?)f.Miles) ?? 0,
+                    TotalsGallons = v.FillUps.Sum(f => (decimal?)f.Gallons) ?? 0
                 }));
 
             cfg.CreateMap<FillUp, FillUpViewModel>();
