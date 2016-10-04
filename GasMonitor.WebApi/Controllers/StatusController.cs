@@ -23,9 +23,12 @@ namespace GasMonitor.WebApi.Controllers
         private static string ComputeGitHash()
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("GasMonitor.WebApi.githash.txt"))
-            using (StreamReader reader = new StreamReader(stream))
             {
-                return reader.ReadToEnd().Trim();
+                Debug.Assert(stream != null, "githash was not included as embedded resource");
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd().Trim();
+                }
             }
         }
 
