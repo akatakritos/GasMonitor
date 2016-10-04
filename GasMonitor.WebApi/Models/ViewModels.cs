@@ -61,9 +61,9 @@ namespace GasMonitor.WebApi.Models
     {
         public decimal TotalMiles { get; set; }
         public decimal TotalsGallons { get; set; }
-        public decimal NumberOfFillups { get; set; }
+        public int NumberOfFillups { get; set; }
 
-        public decimal AverageMilesPerGallon => TotalMiles / TotalsGallons;
+        public decimal AverageMilesPerGallon => TotalsGallons ==0 ? 0 : TotalMiles / TotalsGallons;
     }
 
     public class FillUpViewModel
