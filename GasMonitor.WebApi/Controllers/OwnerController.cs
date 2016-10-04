@@ -25,7 +25,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets the details of an owner
+        ///     Gets the details of an owner
         /// </summary>
         /// <param name="id">The identifier of the vehicle owner</param>
         /// <response code="404">Owner does not exist</response>
@@ -47,7 +47,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Adds a new Owner. Check the Location header for its url, or parse the Id from the response body
+        ///     Adds a new Owner. Check the Location header for its url, or parse the Id from the response body
         /// </summary>
         /// <param name="owner"></param>
         /// <response code="201">Successfully created</response>
@@ -67,7 +67,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Deletes the owner identified by the URL
+        ///     Deletes the owner identified by the URL
         /// </summary>
         /// <param name="id"></param>
         /// <response code="404">Owner does not exist</response>

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -14,20 +12,19 @@ using GasMonitor.Core.Database;
 using GasMonitor.Core.Models;
 using GasMonitor.WebApi.Models;
 
-using Swashbuckle.Swagger.Annotations;
-
 namespace GasMonitor.WebApi.Controllers
 {
     public class FillUpController : ApiController
     {
         private readonly GasMonitorContext _context;
+
         public FillUpController()
         {
             _context = new GasMonitorContext();
         }
 
         /// <summary>
-        /// Get the fill up records for a given vehicle
+        ///     Get the fill up records for a given vehicle
         /// </summary>
         /// <param name="vehicleId"></param>
         /// <response code="404">Vehicle not found</response>
@@ -49,14 +46,14 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets a single fill up record by id
+        ///     Gets a single fill up record by id
         /// </summary>
         /// <param name="id"></param>
         /// <response code="404">Fill up not found</response>
         /// <response code="200">OK</response>
         /// <returns></returns>
         [HttpGet]
-        [Route("fillups/{id}", Name="Fillups.GetById")]
+        [Route("fillups/{id}", Name = "Fillups.GetById")]
         [ResponseType(typeof(FillUpViewModel))]
         public async Task<IHttpActionResult> GetById(Guid id)
         {
@@ -71,7 +68,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Log a fill up
+        ///     Log a fill up
         /// </summary>
         /// <param name="vehicleId"></param>
         /// <param name="cmd"></param>
@@ -101,7 +98,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Deletes a fill up
+        ///     Deletes a fill up
         /// </summary>
         /// <response code="404">Fillup not found</response>
         /// <response code="200">OK</response>

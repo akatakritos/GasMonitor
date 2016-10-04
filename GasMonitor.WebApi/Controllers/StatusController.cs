@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
 
@@ -14,7 +12,7 @@ namespace GasMonitor.WebApi.Controllers
 {
     public class StatusController : ApiController
     {
-        private static Lazy<string> _gitHash;
+        private static readonly Lazy<string> _gitHash;
         public static string GitHash => _gitHash.Value;
 
         static StatusController()
@@ -32,7 +30,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets the status of the API.
+        ///     Gets the status of the API.
         /// </summary>
         /// <remarks>This is a good endpoint to test your client against.</remarks>
         /// <returns></returns>
@@ -51,6 +49,5 @@ namespace GasMonitor.WebApi.Controllers
                 Commit = GitHash
             });
         }
-
     }
 }

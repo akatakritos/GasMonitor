@@ -24,8 +24,6 @@ namespace GasMonitor.Core.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
-
         public virtual IList<Vehicle> Vehicles { get; set; }
     }
 
@@ -35,7 +33,6 @@ namespace GasMonitor.Core.Models
         public Guid OwnerId { get; set; }
         public string Name { get; set; }
         public VehicleType VehicleType { get; set; }
-
         public virtual Owner Owner { get; set; }
         public virtual IList<FillUp> FillUps { get; set; }
     }
@@ -48,7 +45,6 @@ namespace GasMonitor.Core.Models
         public decimal Miles { get; set; }
         public bool PrimarilyHighway { get; set; }
         public DateTime FilledAt { get; set; }
-
         public virtual Vehicle Vehicle { get; set; }
     }
 }

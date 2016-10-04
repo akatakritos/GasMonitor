@@ -18,13 +18,14 @@ namespace GasMonitor.WebApi.Controllers
     public class VehicleController : ApiController
     {
         private readonly GasMonitorContext _context;
+
         public VehicleController()
         {
             _context = new GasMonitorContext();
         }
 
         /// <summary>
-        /// Gets vehicles for an owner
+        ///     Gets vehicles for an owner
         /// </summary>
         /// <param name="ownerId"></param>
         /// <response code="404">Owner does not exist</response>
@@ -48,14 +49,14 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets details of a vehicle
+        ///     Gets details of a vehicle
         /// </summary>
         /// <param name="vehicleId"></param>
         /// <response code="404">Vehicle not found</response>
         /// <response code="200">OK</response>
         /// <returns></returns>
         [HttpGet]
-        [Route("vehicles/{vehicleId}", Name="Vehicles.GetById")]
+        [Route("vehicles/{vehicleId}", Name = "Vehicles.GetById")]
         [ResponseType(typeof(VehicleWithStats))]
         public async Task<IHttpActionResult> GetById(Guid vehicleId)
         {
@@ -71,7 +72,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new vehicle
+        ///     Creates a new vehicle
         /// </summary>
         /// <param name="ownerId"></param>
         /// <param name="vehicle"></param>
@@ -98,7 +99,7 @@ namespace GasMonitor.WebApi.Controllers
         }
 
         /// <summary>
-        /// Update a vehicle
+        ///     Update a vehicle
         /// </summary>
         /// <remarks>Properties not included in the PATCH body are not updated</remarks>
         /// <param name="vehicleId"></param>
@@ -117,11 +118,10 @@ namespace GasMonitor.WebApi.Controllers
 
             await _context.SaveChangesAsync();
             return Ok(Mapper.Map<VehicleViewModel>(entity));
-
         }
 
         /// <summary>
-        /// Delets a vehicle
+        ///     Delets a vehicle
         /// </summary>
         /// <param name="vehicleId"></param>
         /// <response code="404">Vehicle does not exist</response>

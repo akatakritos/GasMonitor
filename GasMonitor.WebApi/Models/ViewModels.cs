@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 using GasMonitor.Core.Models;
 
@@ -10,12 +9,12 @@ namespace GasMonitor.WebApi.Models
     public class OwnerViewModel
     {
         /// <summary>
-        /// The unique identifier for the owner
+        ///     The unique identifier for the owner
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// The name of the vehicle owner
+        ///     The name of the vehicle owner
         /// </summary>
         public string Name { get; set; }
     }
@@ -23,7 +22,7 @@ namespace GasMonitor.WebApi.Models
     public class OwnerWithVehicles : OwnerViewModel
     {
         /// <summary>
-        ///  The vehicles this owner has
+        ///     The vehicles this owner has
         /// </summary>
         public IEnumerable<VehicleViewModel> Vehicles { get; set; }
     }
@@ -62,8 +61,7 @@ namespace GasMonitor.WebApi.Models
         public decimal TotalMiles { get; set; }
         public decimal TotalsGallons { get; set; }
         public int NumberOfFillups { get; set; }
-
-        public decimal AverageMilesPerGallon => TotalsGallons ==0 ? 0 : TotalMiles / TotalsGallons;
+        public decimal AverageMilesPerGallon => TotalsGallons == 0 ? 0 : TotalMiles / TotalsGallons;
     }
 
     public class FillUpViewModel

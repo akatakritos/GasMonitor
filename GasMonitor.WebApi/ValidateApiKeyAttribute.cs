@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -31,6 +30,5 @@ namespace GasMonitor.WebApi
                 Content = new StringContent("Not authorized. Did you forget to include the right X-Api-Key header?")
             };
         }
-
     }
 }
