@@ -31,7 +31,14 @@ namespace GasMonitor.WebApi.Controllers
             }
         }
 
-        [Route("version")]
+        /// <summary>
+        /// Gets the status of the API.
+        /// </summary>
+        /// <remarks>This is a good endpoint to test your client against.</remarks>
+        /// <returns></returns>
+        /// <response code="200">Server is up and running</response>
+        /// <response code="401">Missing or incorrect X-Api-Key header</response>
+        [Route("status")]
         [HttpGet]
         public IHttpActionResult Get()
         {
