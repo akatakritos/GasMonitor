@@ -59,16 +59,5 @@ namespace GasMonitor.Core.Database
 
             return base.SaveChangesAsync();
         }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        [Obsolete("Use async", true)]
-        public override int SaveChanges()
-        {
-            throw new Exception("Dont do this");
-        }
     }
 }
